@@ -24,6 +24,8 @@ services:
     stdin_open: true
     depends_on:
     - db
+    environment:
+      DATABASE_URL: postgres://postgres@db
 volumes:
   data-postgres:
     driver: local
