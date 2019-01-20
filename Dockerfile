@@ -13,3 +13,6 @@ COPY Gemfile ./
 COPY Gemfile.lock ./
 
 RUN bundle check || bundle install || rake db:migrate
+
+ADD . .
+CMD ["puma"]
