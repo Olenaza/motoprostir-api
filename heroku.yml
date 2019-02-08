@@ -22,5 +22,5 @@ run:
 #    - python asset-syncer.py
   image:
     command:
-    - api
-    image: api
+    - web
+    image: web
