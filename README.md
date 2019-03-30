@@ -31,4 +31,6 @@ To access the PostgreSQL command line terminal through Docker:
   Exiting the container:
   \q
  
+ API documentation:
+ http://localhost:3000/swagger
   
