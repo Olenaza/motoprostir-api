@@ -1,46 +1,46 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
 #
-# Examples:
-#
+=begin
 users = User.create([
-                      { nick: 'rider1',
+                      { username: 'rider1',
                         firstName: 'Alex',
                         lastName: 'Poddybnuy',
                         email: 'example1@gmail.com',
+                        gender: 'male',
                         password: '123456',
                         password_confirmation: '123456',
-                        birth_date: Date.new(2001, 01, 01),
                         country: 'Ukraine',
                         city: 'Cherkasy'},
-                      { nick: 'rider2',
+                      { username: 'rider2',
                         firstName: 'Max',
                         lastName: 'Zinchenko',
                         email: 'example2@gmail.com',
+                        gender: 'male',
                         password: '789123',
                         password_confirmation: '789123',
-                        birth_date: Date.new(2002, 02, 02),
                         country: 'Ukraine',
                         city: 'Cherkasy' },
-                      { nick: 'rider3',
+                      { username: 'rider3',
                         firstName: 'Olena',
                         lastName: 'Zamkova',
                         email: 'example3@gmail.com',
+                        gender: 'female',
                         password: '147915',
                         password_confirmation: '147915',
-                        birth_date: Date.new(2003, 03, 03),
                         country: 'Ukraine',
                         city: 'Cherkasy' },
-                      { nick: 'rider4',
+                      { username: 'rider4',
                         firstName: 'Eugene',
                         lastName: 'Voronyi',
                         email: 'example4@gmail.com',
+                        gender: 'male',
                         password: '148345',
                         password_confirmation: '148345',
-                        birth_date: Date.new(2004, 04, 04),
                         country: 'Ukraine',
                         city: 'Cherkasy' },
                     ])
+=end
 =begin
 Event.create(
   title: 'Alex\'s first trip',

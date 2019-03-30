@@ -16,7 +16,7 @@ Steps to get the application up and running:
   
   
 To login to the container as bash console:
-  docker-compose run --rm api bash
+  docker-compose run --rm web bash
   
   
 To access the PostgreSQL command line terminal through Docker:
@@ -30,12 +30,5 @@ To access the PostgreSQL command line terminal through Docker:
   \d+ users
   Exiting the container:
   \q
-  
-  
-Request for authentication:
-  curl -H "Content-Type: application/json" -X POST -d '{"email":"example1@gmail.com", "password":"123456"}' http://localhost:3000/authenticate
-Returns:
-  {"auth_token":<token>}
-Prepend the token to the headers of the subsequent requests:
-  curl -H "Authorization: <token>" http://localhost:3000/events
+ 
   

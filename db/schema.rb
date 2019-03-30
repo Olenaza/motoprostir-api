@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_12_174233) do
+ActiveRecord::Schema.define(version: 2019_03_27_055036) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "comments", force: :cascade do |t|
+    t.string "text"
+    t.string "commentable_type"
+    t.bigint "commentable_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
 
   create_table "events", force: :cascade do |t|
     t.string "title"
@@ -33,17 +44,19 @@ ActiveRecord::Schema.define(version: 2019_01_12_174233) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "nick"
+    t.string "username"
     t.string "firstName"
     t.string "lastName"
     t.string "email"
-    t.string "password_digest"
-    t.date "birth_date"
     t.string "country"
     t.string "city"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "crypted_password"
+    t.string "salt"
+    t.string "gender"
   end
 
+  add_foreign_key "comments", "users"
   add_foreign_key "events", "users"
 end

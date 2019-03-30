@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :events
-  post 'authenticate', to: 'authentication#authenticate'
-  resources :users, :events, :bikes
+  mount MotoprostirApi::ApiBase => '/'
+  mount GrapeSwaggerRails::Engine => '/swagger'
 end
