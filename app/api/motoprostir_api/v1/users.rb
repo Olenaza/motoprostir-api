@@ -12,6 +12,7 @@ module MotoprostirApi
             requires :gender
             requires :country
             requires :city
+            requires :admin, type: Boolean, desc: 'Admin flag'
           end
         end
         post do
