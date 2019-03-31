@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(version: 2019_03_31_221150) do
     t.string "crypted_password"
     t.string "salt"
     t.string "gender"
-    t.boolean "admin"
+    t.boolean "admin", default: false
   end
 
   add_foreign_key "comments", "users"
