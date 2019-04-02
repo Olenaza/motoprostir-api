@@ -15,7 +15,7 @@ build:
 ##  - ./deployment-tasks.sh
 #  image: worker
 run:
-  web: bundle exec puma
+  web: bundle exec puma config.ru
 #  worker: python myworker.py
 #  asset-syncer:
 #    command:
