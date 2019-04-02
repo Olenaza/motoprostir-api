@@ -12,4 +12,8 @@ RUN bundle config git.allow_insecure true
 COPY Gemfile ./
 COPY Gemfile.lock ./
 
+ADD . /app
+
 RUN bundle check || bundle install || rake db:migrate
+
+CMD ["bundle", "exec"]
