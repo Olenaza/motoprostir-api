@@ -28,6 +28,10 @@ module MotoprostirApi
           formatted_error!(404, 'Not Found', e.to_s)
         end
       end
+
+      def forbidden!
+        formatted_error!(403, :Forbidden, 'Permission denied')
+      end
     end
   end
 end

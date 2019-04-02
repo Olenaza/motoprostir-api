@@ -23,7 +23,7 @@ module MotoprostirApi
             end
           end
           put do
-            authorize_request
+            authorize_admin
 
             brand = Brand.find(params[:id]).update(params[:brand])
 
@@ -36,7 +36,7 @@ module MotoprostirApi
 
           desc 'Delete a bike brand.'
           delete do
-            authorize_request
+            authorize_admin
 
             Brand.find(params[:id]).destroy
           end
@@ -49,7 +49,7 @@ module MotoprostirApi
           end
         end
         post do
-          authorize_request
+          authorize_admin
 
           brand = Brand.new(declared_params[:brand])
 
