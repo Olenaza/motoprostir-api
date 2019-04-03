@@ -16,4 +16,6 @@ COPY . .
 
 RUN bundle check || bundle install || rake db:migrate
 
+RUN bin/rake assets:precompile
+
 CMD ["bundle", "exec"]
