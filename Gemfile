@@ -45,7 +45,7 @@ gem 'simple_command'
 gem 'rack-cors'
 
 #the administration framework
-gem 'activeadmin'
+# gem 'activeadmin'
 
 #authentication library
 gem 'sorcery'
