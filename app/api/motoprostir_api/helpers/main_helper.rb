@@ -14,19 +14,15 @@ module MotoprostirApi
       end
 
       def user_event
-        begin
-          current_user.events.find(params[:id])
-        rescue ActiveRecord::RecordNotFound => e
-          formatted_error!(404, 'Not Found', e.to_s)
-        end
+        current_user.events.find(params[:id])
       end
 
       def user_comment
-        begin
-          current_user.comments.find(params[:id])
-        rescue ActiveRecord::RecordNotFound => e
-          formatted_error!(404, 'Not Found', e.to_s)
-        end
+        current_user.comments.find(params[:id])
+      end
+
+      def user_post
+        current_user.posts.find(params[:id])
       end
 
       def forbidden!

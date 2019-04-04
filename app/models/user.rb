@@ -4,6 +4,7 @@ class User < ApplicationRecord
   authenticates_with_sorcery!
 
   has_many :events, dependent: :destroy
+  has_many :posts, dependent: :destroy
 
   validates_presence_of :username, :firstName, :lastName, :email, :gender, :country, :city, :admin
 
@@ -11,7 +12,7 @@ class User < ApplicationRecord
   validates :username, uniqueness: true
 
   # Don't use validates_associated on both ends of your associations. They would call each other in an infinite loop.
-  validates_associated :events
+  validates_associated :events, :posts
 
   validates_length_of :username, :firstName, :lastName, :email, :country, :city, :maximum => 255
 

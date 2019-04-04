@@ -21,6 +21,7 @@ module MotoprostirApi
       mount Events
       mount Comments
       mount Brands
+      mount Posts
 
       add_swagger_documentation api_version: 'v1', hide_documentation_path: true
     end
