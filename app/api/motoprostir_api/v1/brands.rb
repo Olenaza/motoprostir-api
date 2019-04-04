@@ -1,6 +1,7 @@
 module MotoprostirApi
   module V1
     class Brands < BaseV1
+      prefix "bike"
       namespace :brands do
         desc 'Returns all bike brands.'
         get do
