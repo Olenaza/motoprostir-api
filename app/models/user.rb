@@ -6,7 +6,7 @@ class User < ApplicationRecord
   has_many :events, dependent: :destroy
   has_many :posts, dependent: :destroy
 
-  validates_presence_of :username, :firstName, :lastName, :email, :gender, :country, :city, :admin
+  validates_presence_of :username, :email
 
   validates :email, uniqueness: true, format: EMAIL_REGEXP
   validates :username, uniqueness: true

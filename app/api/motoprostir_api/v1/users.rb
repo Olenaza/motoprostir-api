@@ -7,12 +7,12 @@ module MotoprostirApi
             requires :email, type: String, regexp: User::EMAIL_REGEXP
             requires :password, type: String
             requires :username
-            requires :firstName
-            requires :lastName
-            requires :gender
-            requires :country
-            requires :city
-            requires :admin, type: Boolean, desc: 'Admin flag'
+            optional :firstName
+            optional :lastName
+            optional :gender
+            optional :country
+            optional :city
+            optional :admin, type: Boolean, desc: 'Admin flag', default: false
           end
         end
         post do
