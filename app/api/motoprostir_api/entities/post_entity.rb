@@ -5,6 +5,8 @@ module MotoprostirApi
         expose :id
         expose :title
         expose :description
+        expose :created_at
+        expose :user_id
       end
     end
   end

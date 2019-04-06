@@ -46,18 +46,15 @@ module MotoprostirApi
 
           desc 'Update a post.'
           params do
-            requires :post, type: Hash do
-              requires :user_id, type: Integer, desc: 'Author id.'
-              requires :title, type: String, desc: 'Post title.', allow_blank: false
-              requires :description, type: String, desc: 'Post text.', allow_blank: false
-              optional :picture, type: String, desc: 'Cover picture'
-            end
+            requires :title, type: String, desc: 'Post title.', allow_blank: false
+            requires :description, type: String, desc: 'Post text.', allow_blank: false
+            optional :picture, type: String, desc: 'Cover picture'
           end
           put do
             authorize_request
             post = user_post
-            if post.update(declared_params[:post].merge({user_id: current_user[:id]}))
-              present :post, post
+            if post.update(declared_params.merge({user_id: current_user[:id]}))
+              present post
             else
               error!(post.errors.messages, 422)
             end
@@ -73,18 +70,15 @@ module MotoprostirApi
 
         desc 'Create a post.'
         params do
-          requires :post, type: Hash do
-            requires :user_id, type: Integer, desc: 'Author id.'
-            requires :title, type: String, desc: 'Post title.', allow_blank: false
-            requires :description, type: String, desc: 'Post text.', allow_blank: false
-            optional :picture, type: String, desc: 'Cover picture'
-          end
+          requires :title, type: String, desc: 'Post title.', allow_blank: false
+          requires :description, type: String, desc: 'Post text.', allow_blank: false
+          optional :picture, type: String, desc: 'Cover picture'
         end
         post do
           authorize_request
-          post = Post.new(declared_params[:post].merge({user_id: current_user[:id]}))
+          post = Post.new(declared_params.merge({user_id: current_user[:id]}))
           if post.save
-            present :post, post
+            present post
           else
             error!(post.errors.messages, 422)
           end

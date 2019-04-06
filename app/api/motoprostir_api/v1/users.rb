@@ -3,25 +3,23 @@ module MotoprostirApi
     class Users < BaseV1
       namespace :users do
         params do
-          requires :user, type: Hash do
-            requires :email, type: String, regexp: User::EMAIL_REGEXP
-            requires :password, type: String
-            requires :username
-            optional :firstName
-            optional :lastName
-            optional :gender
-            optional :country
-            optional :city
-            optional :admin, type: Boolean, desc: 'Admin flag', default: false
-          end
+          requires :email, type: String, regexp: User::EMAIL_REGEXP
+          requires :password, type: String
+          requires :username
+          optional :firstName
+          optional :lastName
+          optional :gender
+          optional :country
+          optional :city
+          optional :admin, type: Boolean, desc: 'Admin flag', default: false
         end
         post do
-          entity = User.new(declared_params[:user])
+          user = User.new(declared_params)
 
-          if entity.save
-            present :entity, entity
+          if user.save
+            present user
           else
-            error!(entity.errors.messages, 422)
+            error!(user.errors.messages, 422)
           end
         end
       end
