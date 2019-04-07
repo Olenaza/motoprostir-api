@@ -46,46 +46,6 @@ module MotoprostirApi
 
           desc 'Update an event.'
           params do
-            requires :event, type: Hash do
-              requires :user_id, type: Integer, desc: 'Author id.'
-              requires :title, type: String, desc: 'Event title.', allow_blank: false
-              requires :ride_style, type: String, desc: 'Expected ride style.', allow_blank: false
-              requires :speed, type: Integer, desc: 'Expected speed.', values: 40..300
-              with type: Date, coerce_with: ->(val) { Date.parse(val) } do
-                requires :start_date, desc: 'Expected start date.'
-                requires :end_date, desc: 'Expected end date.'
-              end
-              with type: Array[String], coerce_with: ->(val) { val.split(/\s+/) } do
-                requires :countries, desc: 'Countries to visit.'
-                requires :cities, desc: 'Cities to visit.'
-              end
-              optional :picture, type: File, desc: 'Cover picture'
-            end
-          end
-          put do
-            authorize_request
-
-            event = user_event.update(declared_params[:event].merge({user_id: current_user[:id]}))
-
-            if event
-              present :event, event
-            else
-              error!(event.errors.messages, 422)
-            end
-          end
-
-          desc 'Delete an event.'
-          delete do
-            authorize_request
-
-            user_event.destroy
-          end
-        end
-
-        desc 'Create an event.'
-        params do
-          requires :event, type: Hash do
-            requires :user_id, type: Integer, desc: 'Author id.'
             requires :title, type: String, desc: 'Event title.', allow_blank: false
             requires :ride_style, type: String, desc: 'Expected ride style.', allow_blank: false
             requires :speed, type: Integer, desc: 'Expected speed.', values: 40..300
@@ -99,6 +59,37 @@ module MotoprostirApi
             end
             optional :picture, type: File, desc: 'Cover picture'
           end
+          put do
+            authorize_request
+            event = user_event.update(declared_params.merge({user_id: current_user[:id]}))
+            if event
+              present event
+            else
+              error!(event.errors.messages, 422)
+            end
+          end
+
+          desc 'Delete an event.'
+          delete do
+            authorize_request
+            user_event.destroy
+          end
+        end
+
+        desc 'Create an event.'
+        params do
+          requires :title, type: String, desc: 'Event title.', allow_blank: false
+          requires :ride_style, type: String, desc: 'Expected ride style.', allow_blank: false
+          requires :speed, type: Integer, desc: 'Expected speed.', values: 40..300
+          with type: Date, coerce_with: ->(val) { Date.parse(val) } do
+            requires :start_date, desc: 'Expected start date.'
+            requires :end_date, desc: 'Expected end date.'
+          end
+          with type: Array[String], coerce_with: ->(val) { val.split(/,/) } do
+            requires :countries, desc: 'Countries to visit.'
+            requires :cities, desc: 'Cities to visit.'
+          end
+          optional :picture, type: File, desc: 'Cover picture'
         end
         post do
           authorize_request
@@ -106,10 +97,9 @@ module MotoprostirApi
           # params[:avatar][:tempfile] # => #<File>
           # params[:picture][:filename] # => 'avatar.png'
           # params[:picture][:type] # => 'image/png'
-          event = Event.new(declared_params[:event].merge({user_id: current_user[:id]}))
-
+          event = Event.new(declared_params.merge({user_id: current_user[:id]}))
           if event.save
-            present :event, event
+            present event
           else
             error!(event.errors.messages, 422)
           end

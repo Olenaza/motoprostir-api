@@ -19,17 +19,13 @@ module MotoprostirApi
 
           desc 'Update a bike brand.'
           params do
-            requires :brand, type: Hash do
-              requires :name, type: String, desc: 'Brand name.', allow_blank: false
-            end
+            requires :name, type: String, desc: 'Brand name.', allow_blank: false
           end
           put do
             authorize_admin
-
-            brand = Brand.find(params[:id]).update(params[:brand])
-
+            brand = Brand.find(params[:id]).update(declared_params)
             if brand
-              present :brand, brand
+              present brand
             else
               error!(brand.errors.messages, 422)
             end
@@ -38,24 +34,19 @@ module MotoprostirApi
           desc 'Delete a bike brand.'
           delete do
             authorize_admin
-
             Brand.find(params[:id]).destroy
           end
         end
 
         desc 'Create a bike brand.'
         params do
-          requires :brand, type: Hash do
-            requires :name, type: String, desc: 'Brand name.', allow_blank: false
-          end
+          requires :name, type: String, desc: 'Brand name.', allow_blank: false
         end
         post do
           authorize_admin
-
-          brand = Brand.new(declared_params[:brand])
-
+          brand = Brand.new(declared_params)
           if brand.save
-            present :brand, brand
+            present brand
           else
             error!(brand.errors.messages, 422)
           end
