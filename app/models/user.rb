@@ -10,6 +10,8 @@ class User < ApplicationRecord
 
   validates :email, uniqueness: true, format: EMAIL_REGEXP
   validates :username, uniqueness: true
+  validates :admin, inclusion: { in: [true, false] }, on: :update
+  validates :gender, inclusion: { in: %w[f m] }, allow_nil: true
 
   # Don't use validates_associated on both ends of your associations. They would call each other in an infinite loop.
   validates_associated :events, :posts

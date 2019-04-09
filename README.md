@@ -2,6 +2,8 @@
 
 Steps to get the application up and running:
 
+* Add to the project folder .env and config/master.key files
+
 * Build the container:
   docker-compose build
 

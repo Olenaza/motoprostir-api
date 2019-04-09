@@ -1,8 +1,10 @@
 class Post < ApplicationRecord
   belongs_to :user
+  belongs_to :category
   has_many :comments, as: :commentable
 
-  validates :user, presence: true
+  validates_presence_of :user, :title, :description, :category
 
-  validates_presence_of :title, :description
+  validates :title, length: { minimum: 2, maximum: 255 }
+  validates :description, length: { minimum: 5 }
 end
