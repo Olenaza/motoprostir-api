@@ -16,7 +16,7 @@ module MotoprostirApi
         JWT.encode(payload, Rails.application.credentials.secret_key_base, 'HS256')
       end
 
-      def authorize_request
+      def authenticate
         @current_user = User.find(decoded_token.try(:dig, :user_id))
       rescue ActiveRecord::RecordNotFound
         unauthorized! 'Invalid token'

@@ -1,7 +1,7 @@
 module MotoprostirApi
   module V1
     class Brands < BaseV1
-      prefix "bike"
+      prefix 'motorcycle'
       namespace :brands do
         desc 'Returns all bike brands.'
         get do
@@ -23,8 +23,8 @@ module MotoprostirApi
           end
           put do
             authorize_admin
-            brand = Brand.find(params[:id]).update(declared_params)
-            if brand
+            brand = Brand.find(params[:id])
+            if brand.update(declared_params)
               present brand
             else
               error!(brand.errors.messages, 422)

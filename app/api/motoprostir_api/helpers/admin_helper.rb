@@ -2,12 +2,11 @@ module MotoprostirApi
   module Helpers
     module AdminHelper
       def authorize_admin
-        forbidden! unless is_admin?
+        forbidden! unless admin?
       end
 
-      def is_admin?
-        authorize_request
-
+      def admin?
+        authenticate
         current_user.attributes['admin']
       end
     end

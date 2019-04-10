@@ -23,7 +23,7 @@ module MotoprostirApi
           use :pagination
         end
         get :my do
-          authorize_request
+          authenticate
           current_user.events.order(params[:sort_by]).page(params[:page]).per(params[:per_page])
         end
 
@@ -60,9 +60,9 @@ module MotoprostirApi
             optional :picture, type: File, desc: 'Cover picture'
           end
           put do
-            authorize_request
-            event = user_event.update(declared_params.merge({user_id: current_user[:id]}))
-            if event
+            authenticate
+            event = user_event
+            if event.update(declared_params)
               present event
             else
               error!(event.errors.messages, 422)
@@ -71,7 +71,7 @@ module MotoprostirApi
 
           desc 'Delete an event.'
           delete do
-            authorize_request
+            authenticate
             user_event.destroy
           end
         end
@@ -92,7 +92,7 @@ module MotoprostirApi
           optional :picture, type: File, desc: 'Cover picture'
         end
         post do
-          authorize_request
+          authenticate
 
           # params[:avatar][:tempfile] # => #<File>
           # params[:picture][:filename] # => 'avatar.png'

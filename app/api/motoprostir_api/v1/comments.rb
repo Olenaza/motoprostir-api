@@ -11,9 +11,9 @@ module MotoprostirApi
             requires :text, type: String, desc: 'Comment text.', allow_blank: false
           end
           put do
-            authorize_request
-            comment = user_comment.update(params[:text])
-            if comment
+            authenticate
+            comment = user_comment
+            if comment.update(declared_params)
               present comment
             else
               error!(comment.errors.messages, 422)
@@ -22,8 +22,8 @@ module MotoprostirApi
 
           desc 'Delete a comment.'
           delete do
-            authorize_request
-            current_user.comments.find(params[:id]).destroy
+            authenticate
+            user_comment.destroy
           end
         end
 
@@ -34,7 +34,7 @@ module MotoprostirApi
           requires :text, type: String, desc: 'Comment text.', allow_blank: false
         end
         post do
-          authorize_request
+          authenticate
           comment = Comment.new(declared_params.merge({user_id: current_user[:id]}))
           if comment.save
             present comment

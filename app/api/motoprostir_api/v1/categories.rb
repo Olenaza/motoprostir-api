@@ -22,8 +22,8 @@ module MotoprostirApi
           end
           put do
             authorize_admin
-            category = Category.find(params[:id]).update(declared_params)
-            if category
+            category = Category.find(params[:id])
+            if category.update(declared_params)
               present category
             else
               error!(category.errors.messages, 422)

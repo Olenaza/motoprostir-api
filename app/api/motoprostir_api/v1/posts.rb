@@ -23,7 +23,7 @@ module MotoprostirApi
           use :pagination
         end
         get :my do
-          authorize_request
+          authenticate
           current_user.posts.order(params[:sort_by]).page(params[:page]).per(params[:per_page])
         end
 
@@ -52,9 +52,9 @@ module MotoprostirApi
             optional :picture, type: String, desc: 'Cover picture'
           end
           put do
-            authorize_request
+            authenticate
             post = user_post
-            if post.update(declared_params.merge({user_id: current_user[:id]}))
+            if post.update(declared_params)
               present post
             else
               error!(post.errors.messages, 422)
@@ -63,7 +63,7 @@ module MotoprostirApi
 
           desc 'Delete a post.'
           delete do
-            authorize_request
+            authenticate
             user_post.destroy
             nil
           end
@@ -77,7 +77,7 @@ module MotoprostirApi
           optional :picture, type: String, desc: 'Cover picture'
         end
         post do
-          authorize_request
+          authenticate
           post = Post.new(declared_params.merge({user_id: current_user[:id]}))
           if post.save
             present post

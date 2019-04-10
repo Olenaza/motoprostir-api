@@ -13,9 +13,5 @@ class User < ApplicationRecord
   validates :admin, inclusion: { in: [true, false] }, on: :update
   validates :gender, inclusion: { in: %w[f m] }, allow_nil: true
 
-  # Don't use validates_associated on both ends of your associations. They would call each other in an infinite loop.
-  validates_associated :events, :posts
-
   validates_length_of :username, :firstName, :lastName, :email, :country, :city, :maximum => 255
-
 end

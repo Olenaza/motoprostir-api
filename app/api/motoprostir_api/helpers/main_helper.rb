@@ -14,15 +14,21 @@ module MotoprostirApi
       end
 
       def user_event
-        current_user.events.find(params[:id])
+        event = Event.find(params[:id])
+        forbidden! unless current_user.id == event.user_id
+        event
       end
 
       def user_comment
-        current_user.comments.find(params[:id])
+        comment = Comment.find(params[:id])
+        forbidden! unless current_user.id == comment.user_id
+        comment
       end
 
       def user_post
-        current_user.posts.find(params[:id])
+        post = Post.find(params[:id])
+        forbidden! unless current_user.id == post.user_id
+        post
       end
 
       def forbidden!
