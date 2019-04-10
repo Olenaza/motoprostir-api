@@ -17,6 +17,7 @@ module MotoprostirApi
       end
 
       mount Users
+      mount Admin
       mount Auth
       mount Events
       mount Comments
