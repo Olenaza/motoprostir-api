@@ -35,6 +35,7 @@ module MotoprostirApi
           delete do
             authorize_admin
             Brand.find(params[:id]).destroy
+            nil
           end
         end
 

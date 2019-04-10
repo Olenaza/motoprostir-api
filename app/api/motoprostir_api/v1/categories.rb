@@ -34,6 +34,7 @@ module MotoprostirApi
           delete do
             authorize_admin
             Category.find(params[:id]).destroy
+            nil
           end
         end
 

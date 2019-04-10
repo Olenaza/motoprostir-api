@@ -73,6 +73,7 @@ module MotoprostirApi
           delete do
             authenticate
             user_event.destroy
+            nil
           end
         end
 

@@ -24,6 +24,7 @@ module MotoprostirApi
           delete do
             authenticate
             user_comment.destroy
+            nil
           end
         end
 
