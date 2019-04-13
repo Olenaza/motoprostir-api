@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   EMAIL_REGEXP = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/.freeze
+  FILENAME_REGEXP = Regexp.union(/.\.png$/i, /.\.jpg$/i, /.\.jpeg$/i, /.\.gif$/i)
 
   authenticates_with_sorcery!
 

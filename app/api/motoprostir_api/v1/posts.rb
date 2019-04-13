@@ -46,10 +46,9 @@ module MotoprostirApi
 
           desc 'Update a post.'
           params do
-            requires :title, type: String, desc: 'Post title.', allow_blank: false
-            requires :description, type: String, desc: 'Post text.', allow_blank: false
-            requires :category_id, type: Integer, desc: 'Category id.', allow_blank: false
-            optional :picture, type: String, desc: 'Cover picture'
+            optional :title, type: String, desc: 'Post title.', allow_blank: false
+            optional :description, type: String, desc: 'Post text.', allow_blank: false
+            optional :picture, type: String, desc: 'Url for image'
           end
           put do
             authenticate
@@ -73,7 +72,6 @@ module MotoprostirApi
         params do
           requires :title, type: String, desc: 'Post title.', allow_blank: false
           requires :description, type: String, desc: 'Post text.', allow_blank: false
-          requires :category_id, type: Integer, desc: 'Category id.', allow_blank: false
           optional :picture, type: String, desc: 'Cover picture'
         end
         post do

@@ -13,6 +13,8 @@ module MotoprostirApi
         expose :admin
         expose :created_at
         expose :updated_at
+        expose :avatar
+        expose :cover
       end
     end
   end
