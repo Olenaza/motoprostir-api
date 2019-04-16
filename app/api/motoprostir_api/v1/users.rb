@@ -71,7 +71,7 @@ module MotoprostirApi
                                               key: params[:file_name],
                                               acl: 'public-read',
                                               content_type: "image/#{image_type}",
-                                              expires_in: 3)
+                                              expires_in: 60)
             present signed_url
           end
         end

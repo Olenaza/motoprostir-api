@@ -72,7 +72,7 @@ module MotoprostirApi
         params do
           requires :title, type: String, desc: 'Post title.', allow_blank: false
           requires :description, type: String, desc: 'Post text.', allow_blank: false
-          optional :picture, type: String, desc: 'Cover picture'
+          optional :picture, type: String, desc: 'Url for image'
         end
         post do
           authenticate
