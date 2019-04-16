@@ -70,7 +70,7 @@ module MotoprostirApi
                                               bucket: ENV.fetch("S3_BUCKET"),
                                               key: params[:file_name],
                                               acl: 'public-read',
-                                              content_type: "image/#{image_type}",
+                                              content_type: "",
                                               expires_in: 60)
             present signed_url
           end
