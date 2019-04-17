@@ -64,14 +64,10 @@ module MotoprostirApi
           end
           get :presigned_url do
             authenticate
-            image_type = params[:file_name].split('.').last
-            signer = Aws::S3::Presigner.new
-            signed_url = signer.presigned_url(:put_object,
-                                              bucket: ENV.fetch("S3_BUCKET"),
-                                              key: params[:file_name],
-                                              acl: 'public-read',
-                                              content_type: "",
-                                              expires_in: 60)
+            s3_resource = Aws::S3::Resource::new(region: ENV.fetch("AWS_REGION"))
+            object = s3_resource.bucket(ENV.fetch("S3_BUCKET")).object(params[:file_name])
+            signed_url = object.presigned_url(:put, expires_in: 1.minutes.to_i)
+
             present signed_url
           end
         end
