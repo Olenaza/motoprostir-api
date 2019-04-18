@@ -66,7 +66,7 @@ module MotoprostirApi
             authenticate
             s3_resource = Aws::S3::Resource::new(region: ENV.fetch("AWS_REGION"))
             object = s3_resource.bucket(ENV.fetch("S3_BUCKET")).object(params[:file_name])
-            signed_url = object.presigned_url(:put, expires_in: 1.minutes.to_i)
+            signed_url = object.presigned_url(:put, expires_in: 1.minutes.to_i, acl: 'public-read')
 
             present signed_url
           end
