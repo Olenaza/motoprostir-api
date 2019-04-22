@@ -17,7 +17,7 @@ module MotoprostirApi
         post do
           user = User.new(declared_params)
           if user.save
-            present user
+            present user, with: MotoprostirApi::Entities::UserEntity::Base
           else
             error!(user.errors.messages, 422)
           end
@@ -50,7 +50,7 @@ module MotoprostirApi
             authenticate
             forbidden! unless current_user.id == params[:id]
             if current_user.update(declared_params)
-              present current_user
+              present current_user, with: MotoprostirApi::Entities::UserEntity::Base
             else
               error!(current_user.errors.messages, 422)
             end
@@ -67,6 +67,14 @@ module MotoprostirApi
             s3_resource = Aws::S3::Resource::new(region: ENV.fetch("AWS_REGION"))
             object = s3_resource.bucket(ENV.fetch("S3_BUCKET")).object(params[:file_name])
             signed_url = object.presigned_url(:put, expires_in: 1.minutes.to_i, acl: 'public-read')
+
+            url = URI.parse(signed_url)
+            body = "Hello World!"
+            Net::HTTP.start(url.host) do |http|
+              http.send_request("PUT", url.request_uri, body, {
+                  "content-type" => "",
+              })
+            end
 
             present signed_url
           end
