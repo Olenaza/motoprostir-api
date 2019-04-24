@@ -68,14 +68,6 @@ module MotoprostirApi
             object = s3_resource.bucket(ENV.fetch("S3_BUCKET")).object(params[:file_name])
             signed_url = object.presigned_url(:put, expires_in: 1.minutes.to_i, acl: 'public-read')
 
-            url = URI.parse(signed_url)
-            body = "Hello World!"
-            Net::HTTP.start(url.host) do |http|
-              http.send_request("PUT", url.request_uri, body, {
-                  "content-type" => "",
-              })
-            end
-
             present signed_url
           end
         end
