@@ -14,7 +14,8 @@ module MotoprostirApi
           else
             comments = Event.find(params[:id]).comments
           end
-          present comments.order(:created_at).page(params[:page]).per(params[:per_page])
+          present_comment_data(comments.order(:created_at)
+                                   .page(params[:page]).per(params[:per_page]))
         end
 
         params do
@@ -29,7 +30,7 @@ module MotoprostirApi
             authenticate
             comment = user_comment
             if comment.update(declared(params, include_parent_namespaces: false))
-              present comment
+              present_comment_data(comment)
             else
               error!(comment.errors.messages, 422)
             end
@@ -55,7 +56,7 @@ module MotoprostirApi
             commentable_id: params[:id]
           }))
           if comment.save
-            present comment
+            present_comment_data(comment)
           else
             error!(comment.errors.messages, 422)
           end
