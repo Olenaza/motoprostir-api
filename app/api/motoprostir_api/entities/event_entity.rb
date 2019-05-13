@@ -4,6 +4,8 @@ module MotoprostirApi
       class Base < Grape::Entity
         expose :id
         expose :title
+        expose :description
+        expose :base
         expose :ride_style
         expose :speed
         expose :start_date

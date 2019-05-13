@@ -5,6 +5,7 @@ module MotoprostirApi
         expose :id
         expose :title
         expose :description
+        expose :picture
         expose :created_at
         expose :user, using: UserEntity::Base
       end

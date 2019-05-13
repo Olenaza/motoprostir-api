@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_13_205101) do
+ActiveRecord::Schema.define(version: 2019_05_13_052355) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,9 +52,21 @@ ActiveRecord::Schema.define(version: 2019_04_13_205101) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
+    t.string "base"
+    t.string "description"
     t.index ["cities"], name: "index_events_on_cities", using: :gin
     t.index ["countries"], name: "index_events_on_countries", using: :gin
     t.index ["user_id"], name: "index_events_on_user_id"
+  end
+
+  create_table "markers", force: :cascade do |t|
+    t.float "lat"
+    t.float "lng"
+    t.boolean "draggable", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "event_id"
+    t.index ["event_id"], name: "index_markers_on_event_id"
   end
 
   create_table "posts", force: :cascade do |t|
@@ -63,6 +75,7 @@ ActiveRecord::Schema.define(version: 2019_04_13_205101) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
+    t.string "picture"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -87,5 +100,6 @@ ActiveRecord::Schema.define(version: 2019_04_13_205101) do
 
   add_foreign_key "comments", "users"
   add_foreign_key "events", "users"
+  add_foreign_key "markers", "events"
   add_foreign_key "posts", "users"
 end

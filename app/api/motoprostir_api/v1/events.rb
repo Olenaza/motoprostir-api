@@ -46,18 +46,20 @@ module MotoprostirApi
 
           desc 'Update an event.'
           params do
-            requires :title, type: String, desc: 'Event title.', allow_blank: false
-            requires :ride_style, type: String, desc: 'Expected ride style.', allow_blank: false
-            requires :speed, type: Integer, desc: 'Expected speed.', values: 40..300
+            optional :title, type: String, desc: 'Event title.', allow_blank: false
+            optional :description, type: String, desc: 'Event description.', allow_blank: false
+            optional :ride_style, type: String, desc: 'Expected ride style.', allow_blank: false
+            optional :speed, type: Integer, desc: 'Expected speed.', values: 40..300
+            optional :base, type: String, desc: 'Type of overnight stay.', allow_blank: false
             with type: Date, coerce_with: ->(val) { Date.parse(val) } do
-              requires :start_date, desc: 'Expected start date.'
-              requires :end_date, desc: 'Expected end date.'
+              optional :start_date, desc: 'Expected start date.'
+              optional :end_date, desc: 'Expected end date.'
             end
             with type: Array[String], coerce_with: ->(val) { val.split(/\s+/) } do
-              requires :countries, desc: 'Countries to visit.'
-              requires :cities, desc: 'Cities to visit.'
+              optional :countries, desc: 'Countries to visit.'
+              optional :cities, desc: 'Cities to visit.'
             end
-            optional :picture, type: File, desc: 'Cover picture'
+            optional :picture, type: String, desc: 'Url for cover picture'
           end
           put do
             authenticate
@@ -75,29 +77,30 @@ module MotoprostirApi
             user_event.destroy
             nil
           end
+
+          mount Comments, with: {commentable_type: 'event'}
+          mount Markers
         end
 
         desc 'Create an event.'
         params do
           requires :title, type: String, desc: 'Event title.', allow_blank: false
+          requires :description, type: String, desc: 'Event description.', allow_blank: false
           requires :ride_style, type: String, desc: 'Expected ride style.', allow_blank: false
           requires :speed, type: Integer, desc: 'Expected speed.', values: 40..300
+          optional :base, type: String, desc: 'Type of overnight stay.', allow_blank: false
           with type: Date, coerce_with: ->(val) { Date.parse(val) } do
             requires :start_date, desc: 'Expected start date.'
             requires :end_date, desc: 'Expected end date.'
           end
           with type: Array[String], coerce_with: ->(val) { val.split(/,/) } do
-            requires :countries, desc: 'Countries to visit.'
-            requires :cities, desc: 'Cities to visit.'
+            optional :countries, desc: 'Countries to visit.'
+            optional :cities, desc: 'Cities to visit.'
           end
-          optional :picture, type: File, desc: 'Cover picture'
+          optional :picture, type: String, desc: 'Url for cover picture'
         end
         post do
           authenticate
-
-          # params[:avatar][:tempfile] # => #<File>
-          # params[:picture][:filename] # => 'avatar.png'
-          # params[:picture][:type] # => 'image/png'
           event = Event.new(declared_params.merge({user_id: current_user[:id]}))
           if event.save
             present event

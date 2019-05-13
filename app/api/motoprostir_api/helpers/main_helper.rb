@@ -31,6 +31,13 @@ module MotoprostirApi
         post
       end
 
+      def user_marker
+        event = Event.find(params[:id])
+        marker = event.markers.find(params[:marker_id])
+        forbidden! unless current_user.id == marker.event.user_id
+        marker
+      end
+
       def forbidden!
         formatted_error!(403, :Forbidden, 'Permission denied')
       end

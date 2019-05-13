@@ -1,10 +1,13 @@
 class Event < ApplicationRecord
   belongs_to :user
   has_many :comments, as: :commentable
+  has_many :markers
 
   validates_presence_of :user, :title, :ride_style, :speed
 
   validates :title, length: { maximum: 255 }
+
+  validates :description, presence: true, length: { minimum: 5 }
 
   validates :speed, numericality: { only_integer: true }
 
