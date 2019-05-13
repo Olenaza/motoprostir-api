@@ -20,7 +20,7 @@ module MotoprostirApi
       end
 
       def user_comment
-        comment = Comment.find(params[:id])
+        comment = Comment.find(params[:comment_id])
         forbidden! unless current_user.id == comment.user_id
         comment
       end

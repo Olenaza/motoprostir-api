@@ -5,26 +5,36 @@ module MotoprostirApi
         desc 'Return all posts.'
         params do
           optional :sort_by,
-                   desc: 'Optional sorting parameter.',
+                   desc: 'Sorting parameter.',
                    default: 'created_at',
                    values: %w[created_at user_id title]
+          optional :user_id, type: Integer, desc: 'User id to filter posts by'
           use :pagination
         end
         get do
-          present Post.order(params[:sort_by]).page(params[:page]).per(params[:per_page])
+          if params[:user_id]
+            present_post_data(Post.where(user_id: params[:user_id])
+                                  .order(params[:sort_by])
+                                  .page(params[:page]).per(params[:per_page]))
+          else
+            present_post_data(Post.order(params[:sort_by])
+                                  .page(params[:page]).per(params[:per_page]))
+          end
         end
 
-        desc 'Return user\'s posts.'
+        desc 'Return current user\'s posts.'
         params do
           optional :sort_by,
-                   desc: 'Optional sorting parameter.',
+                   desc: 'Sorting parameter.',
                    default: 'created_at',
                    values: %w[created_at title]
           use :pagination
         end
         get :my do
           authenticate
-          current_user.posts.order(params[:sort_by]).page(params[:page]).per(params[:per_page])
+          present_post_data(current_user.posts
+                                .order(params[:sort_by])
+                                .page(params[:page]).per(params[:per_page]))
         end
 
         params do
@@ -33,15 +43,7 @@ module MotoprostirApi
         route_param :id do
           desc 'Return a post.'
           get do
-            Post.find(params[:id])
-          end
-
-          desc 'Returns all comments for the post.'
-          params do
-            use :pagination
-          end
-          get 'comments' do
-            present Post.find(params[:id]).comments.order(:created_at).page(params[:page]).per(params[:per_page])
+            present_post_data(Post.find(params[:id]))
           end
 
           desc 'Update a post.'
@@ -54,7 +56,7 @@ module MotoprostirApi
             authenticate
             post = user_post
             if post.update(declared_params)
-              present post
+              present_post_data(post)
             else
               error!(post.errors.messages, 422)
             end
@@ -66,6 +68,8 @@ module MotoprostirApi
             user_post.destroy
             nil
           end
+
+          mount Comments, with: {commentable_type: 'post'}
         end
 
         desc 'Create a post.'
@@ -78,7 +82,7 @@ module MotoprostirApi
           authenticate
           post = Post.new(declared_params.merge({user_id: current_user[:id]}))
           if post.save
-            present post
+            present_post_data(post)
           else
             error!(post.errors.messages, 422)
           end

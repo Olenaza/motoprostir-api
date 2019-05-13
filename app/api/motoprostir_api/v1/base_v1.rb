@@ -8,6 +8,7 @@ module MotoprostirApi
       helpers MotoprostirApi::Helpers::MainHelper
       helpers MotoprostirApi::Helpers::AuthenticationHelper
       helpers MotoprostirApi::Helpers::AdminHelper
+      helpers MotoprostirApi::Helpers::PresentationHelper
 
       helpers do
         params :pagination do
@@ -20,7 +21,6 @@ module MotoprostirApi
       mount Admin
       mount Auth
       mount Events
-      mount Comments
       mount Brands
       mount Posts
       mount Categories

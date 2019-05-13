@@ -4,6 +4,10 @@ module MotoprostirApi
       class Base < Grape::Entity
         expose :id
         expose :username
+        expose :avatar
+      end
+
+      class UserProfile < Base
         expose :firstName
         expose :lastName
         expose :email
@@ -13,7 +17,6 @@ module MotoprostirApi
         expose :admin
         expose :created_at
         expose :updated_at
-        expose :avatar
         expose :cover
       end
     end

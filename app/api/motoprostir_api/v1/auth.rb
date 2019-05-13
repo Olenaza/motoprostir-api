@@ -12,7 +12,7 @@ module MotoprostirApi
           if user.present?
             token = encode_payload({user_id: user.id})
             present :token, token
-            present :entity, user, with: MotoprostirApi::Entities::UserEntity::Base
+            present :entity, user, with: MotoprostirApi::Entities::UserEntity::UserProfile
           else
             unauthorized! 'Incorrect email or password'
           end

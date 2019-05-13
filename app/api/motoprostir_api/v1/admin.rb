@@ -16,7 +16,7 @@ module MotoprostirApi
             present User.order(params[:sort_by])
               .page(params[:page])
               .per(params[:per_page]),
-                    with: MotoprostirApi::Entities::UserEntity::Base
+                    with: MotoprostirApi::Entities::UserEntity::UserProfile
           end
 
           params do
@@ -31,7 +31,7 @@ module MotoprostirApi
               authorize_admin
               user = User.find(params[:id])
               if user.update(declared_params)
-                present user, with: MotoprostirApi::Entities::UserEntity::Base
+                present user, with: MotoprostirApi::Entities::UserEntity::UserProfile
               else
                 error!(user.errors.messages, 422)
               end

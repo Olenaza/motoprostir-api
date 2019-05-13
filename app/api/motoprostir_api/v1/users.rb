@@ -17,7 +17,7 @@ module MotoprostirApi
         post do
           user = User.new(declared_params)
           if user.save
-            present user, with: MotoprostirApi::Entities::UserEntity::Base
+            present user, with: MotoprostirApi::Entities::UserEntity::UserProfile
           else
             error!(user.errors.messages, 422)
           end
@@ -50,7 +50,7 @@ module MotoprostirApi
             authenticate
             forbidden! unless current_user.id == params[:id]
             if current_user.update(declared_params)
-              present current_user, with: MotoprostirApi::Entities::UserEntity::Base
+              present current_user, with: MotoprostirApi::Entities::UserEntity::UserProfile
             else
               error!(current_user.errors.messages, 422)
             end
