@@ -70,6 +70,25 @@ module MotoprostirApi
 
             present signed_url
           end
+
+          desc 'Follow a user.'
+          post :follow do
+            authenticate
+            user = User.find(params[:id])
+            if current_user.follow(user.id)
+              present :following_user, user, with: MotoprostirApi::Entities::UserEntity::Base
+            else
+              error!('Unable to follow user.', 422)
+            end
+          end
+
+          desc 'Unfollow a user.'
+          post :unfollow do
+            authenticate
+            user = User.find(params[:id])
+            current_user.unfollow(user.id)
+            return_no_content
+          end
         end
       end
     end
