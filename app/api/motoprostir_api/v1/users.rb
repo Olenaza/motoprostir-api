@@ -44,7 +44,6 @@ module MotoprostirApi
             optional :city, type: String, desc: 'Place of living'
             optional :avatar, type: String, desc: 'Url for avatar image'
             optional :cover, type: String, desc: 'Url for cover image'
-
           end
           put do
             authenticate
@@ -54,6 +53,18 @@ module MotoprostirApi
             else
               error!(current_user.errors.messages, 422)
             end
+          end
+
+          desc 'Return users followed by a user.'
+          get :following do
+            user = User.find(params[:id])
+            present user.following, with: MotoprostirApi::Entities::UserEntity::Base
+          end
+
+          desc 'Return user\'s followers.'
+          get :followers do
+            user = User.find(params[:id])
+            present user.followers, with: MotoprostirApi::Entities::UserEntity::Base
           end
 
           desc 'Get presigned url for file upload to S3'
