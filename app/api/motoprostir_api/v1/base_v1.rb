@@ -9,6 +9,7 @@ module MotoprostirApi
       helpers MotoprostirApi::Helpers::AuthenticationHelper
       helpers MotoprostirApi::Helpers::AdminHelper
       helpers MotoprostirApi::Helpers::PresentationHelper
+      helpers MotoprostirApi::Helpers::FollowHelper
 
       helpers do
         params :pagination do

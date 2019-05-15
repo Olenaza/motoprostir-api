@@ -29,7 +29,10 @@ module MotoprostirApi
         route_param :id do
           desc 'Return a user.'
           get do
-            User.find(params[:id])
+            user = User.find(params[:id])
+            present user,
+                    with: MotoprostirApi::Entities::UserEntity::UserProfilePublic,
+                    followed: following?(user)
           end
 
           desc 'Update a user.'
